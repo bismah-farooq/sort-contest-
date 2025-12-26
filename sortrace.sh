@@ -1,17 +1,24 @@
-echo Generating 100000 random numbers
+echo "=======Start======="
+whoami
+date
+echo My machine has this many processors
+sysctl -n hw.Ncpu
+echo Generating 1000000 random numbers
 sleep 1
-./generate 100000 -100000 100000
+./generate 1000000 -1000000 1000000 # you have to write generate.cpp
 sleep 1
 echo Starting system sort
 sleep 1
-{ time sort -n numbers.dat > systemsort.out; } 2>&1>> sortrace.log
+{ time sort -n numbers.dat > systemsort.out; } 2>&1>> sortrace.log # modification for Mac
 sleep 1
-echo Starting mysort
+echo Starting my sort
 sleep 1
-{ time ./mysort numbers.dat sort.out; } 2>&1>> sortrace.log
+{ time ./mysort numbers.dat mysort.out; } 2>&1>> sortrace.log # modification for Mac computers
 sleep 1
-wc mysort.out
-sort -c -n mysort.out 2>> sortrace.log
-
-
-tail -f sortrace.log
+ls -l systemsort.out
+ls -l mysort.out
+echo Comparing systemsort.out to mysort.out
+diff systemsort.out mysort.out 2>> sortrace.log
+echo All done with diff compare
+echo "=======End======="
+date
